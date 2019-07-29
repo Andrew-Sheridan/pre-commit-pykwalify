@@ -3,5 +3,5 @@
   name: pykwalify-validate-yamls
   alias: pykwalify
   types: [file, yaml]
-  entry: pykwalify_validate
+  entry: pykwalify-validate
   language: python
