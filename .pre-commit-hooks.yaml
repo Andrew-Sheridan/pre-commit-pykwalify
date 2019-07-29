@@ -1,5 +1,6 @@
 ---
 - id: pykwalify-validate-yamls
+  name: pykwalify-validate-yamls
   alias: pykwalify
   types: [file, yaml]
   entry: pykwalify_validate
