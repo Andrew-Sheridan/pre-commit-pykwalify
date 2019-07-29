@@ -29,6 +29,7 @@ def main(argv=None):
     for rule in rules:
         schema_file, data_dir = rule["schema_file"], rule["data_dir"]
         for filename in filenames:
+            print(filename, schema_file, data_dir)
             if filename not in checked_files:
                 file_path = Path(filename)
                 parent = file_path.parent
