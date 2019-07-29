@@ -1,32 +1,42 @@
 import argparse, io, sys
 from pathlib import Path
+from typing import Dict
+import yaml
+from pykwalify.core import Core
 
 
-def load_settings():
-    print("load_settings")
-    path = Path(".") / ".pykwalifyvalidate.yaml"
-    import glob
-    print(glob.glob("*"))
+def load_settings() -> Dict:
+    settings = ".pykwalifyvalidate.yaml"
+    path = Path(".") / settings
+
     if not path.exists():
-        raise OSError(":(")
+        raise OSError(f"Cannot find {settings}")
+    with path.open("r") as f:
+        settings = yaml.safe_load(f)
+    return settings
 
 
 def main(argv=None):
-    print("main")
+
     parser = argparse.ArgumentParser()
     parser.add_argument('filenames', nargs='*', help='filenames to check')
     args = parser.parse_args(argv)
-    print(args)
-    print(load_settings())
-    # errors_found = False
-    # for filename in args.filenames:
-    #     linter_error = get_linter_error(filename)
-    #     if linter_error:
-    #         errors_found = True
-    #         print('Syntax error found in ', filename, file=sys.stderr)
-    #         print(linter_error, file=sys.stderr)
-
-    # return 1 if errors_found else 0
+    filenames = args["filenames"]
+    settings = load_settings()
+    rules = settings["rules"]
+    checked_files = set()
+    for rule in rules:
+        schema_file, data_dir = rule["schema"], rule["data_dir"]
+        for filename in filenames:
+            if filename not in checked_files:
+                file_path = Path(filename)
+                parent = file_path.parent
+                if parent == data_dir:
+                    try:
+                        file = Core(source_file=filename, schema_files=[schema_file])
+                        file.validate(raise_exception=True)
+                    except Exception as e:
+                        raise e
     return 1
 
 
