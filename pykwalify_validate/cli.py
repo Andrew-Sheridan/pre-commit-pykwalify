@@ -38,7 +38,7 @@ def main(argv=None):
                         checked_files.add(filename)
                     except Exception as e:
                         raise e
-    return 1
+    return 0
 
 
 
