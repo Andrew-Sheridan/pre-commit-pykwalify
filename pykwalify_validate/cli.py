@@ -5,6 +5,8 @@ from pathlib import Path
 def load_settings():
     print("load_settings")
     path = Path(".") / ".pykwalifyvalidate.yaml"
+    import glob
+    print(glob.glob("*"))
     if not path.exists():
         raise OSError(":(")
 
