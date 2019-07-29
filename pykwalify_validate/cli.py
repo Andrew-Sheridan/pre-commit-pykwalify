@@ -25,6 +25,7 @@ def main(argv=None):
     settings = load_settings()
     rules = settings["rules"]
     checked_files = set()
+    errors = False
     for rule in rules:
         schema_file, data_dir = rule["schema_file"], rule["data_dir"]
         for filename in filenames:
@@ -36,10 +37,10 @@ def main(argv=None):
                         file = Core(source_file=filename, schema_files=[schema_file])
                         file.validate(raise_exception=True)
                         checked_files.add(filename)
-                    except Exception as e:
-                        raise e
-    return 0
-
+                    except Exception as execinfo:
+                        print(str(execinfo))
+                        errors = True
+    return 0 if not errors else 1
 
 
 if __name__ == '__main__':
