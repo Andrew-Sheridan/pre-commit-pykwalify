@@ -26,7 +26,7 @@ def main(argv=None):
     rules = settings["rules"]
     checked_files = set()
     for rule in rules:
-        schema_file, data_dir = rule["schema"], rule["data_dir"]
+        schema_file, data_dir = rule["schema_file"], rule["data_dir"]
         for filename in filenames:
             if filename not in checked_files:
                 file_path = Path(filename)
@@ -35,6 +35,7 @@ def main(argv=None):
                     try:
                         file = Core(source_file=filename, schema_files=[schema_file])
                         file.validate(raise_exception=True)
+                        checked_files.add(filename)
                     except Exception as e:
                         raise e
     return 1
