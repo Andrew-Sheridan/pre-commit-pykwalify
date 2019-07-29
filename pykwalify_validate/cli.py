@@ -21,7 +21,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('filenames', nargs='*', help='filenames to check')
     args = parser.parse_args(argv)
-    filenames = args["filenames"]
+    filenames = args.filenames
     settings = load_settings()
     rules = settings["rules"]
     checked_files = set()
