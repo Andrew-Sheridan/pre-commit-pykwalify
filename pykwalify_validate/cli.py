@@ -26,6 +26,8 @@ def main(argv=None):
     rules = settings["rules"]
     checked_files = set()
     errors = False
+    print(rules)
+    print(filenames)
     for rule in rules:
         schema_file, data_dir = rule["schema_file"], rule["data_dir"]
         for filename in filenames:
