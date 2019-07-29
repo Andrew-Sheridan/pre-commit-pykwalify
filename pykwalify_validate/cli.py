@@ -26,16 +26,13 @@ def main(argv=None):
     rules = settings["rules"]
     checked_files = set()
     errors = False
-    print(rules)
-    print(filenames)
     for rule in rules:
         schema_file, data_dir = rule["schema_file"], rule["data_dir"]
         for filename in filenames:
-            print(filename, schema_file, data_dir)
             if filename not in checked_files:
                 file_path = Path(filename)
                 parent = file_path.parent
-                if parent == data_dir:
+                if str(parent) == data_dir:
                     try:
                         file = Core(source_file=filename, schema_files=[schema_file])
                         file.validate(raise_exception=True)
