@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Dict
 import yaml
 from pykwalify.core import Core
+from pykwalify.errors import SchemaError
 
 
 def load_settings() -> Dict:
@@ -34,12 +35,14 @@ def main(argv=None):
                 parent = file_path.parent
                 if str(parent) == data_dir:
                     try:
+                        print("\n" + filename)
                         file = Core(source_file=filename, schema_files=[schema_file])
                         file.validate(raise_exception=True)
                         checked_files.add(filename)
-                    except Exception as execinfo:
-                        print(str(execinfo))
+                    except SchemaError:
                         errors = True
+                    else:
+                        print("Validated")
     return 0 if not errors else 1
 
 
